@@ -2,26 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Setup') {
             steps {
-                echo 'Building...'
-                // Ajoutez vos commandes de build ici, par exemple:
-                // sh 'make' ou sh 'npm install'
+                echo 'Setting up the environment...'
+                sh 'python3 --version'  // Affiche la version de Python
             }
         }
-        stage('Test') {
+        stage('Print Message') {
             steps {
-                echo 'Testing...'
-                // Ajoutez vos commandes de test ici, par exemple:
-                // sh 'make test' ou sh 'npm test'
+                echo 'Printing a simple message...'
+                sh 'python3 -c "print(\'Hello, Jenkins!\')"'
             }
         }
-        stage('Deploy') {
+        stage('Run Simple Test') {
             steps {
-                echo 'Deploying...'
-                // Ajoutez vos commandes de déploiement ici, par exemple:
-                // sh 'make deploy' ou sh 'npm run deploy'
+                echo 'Running a simple test...'
+                sh 'python3 -c "assert 1 == 1"'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed!'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
